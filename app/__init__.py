@@ -26,3 +26,4 @@ class App:
         print("Type 'exit' to exit.")
         while True:  #REPL Read, Evaluate, Print, Loop
             self.command_handler.execute_command(input(">>> ").strip())
+            
