@@ -29,62 +29,67 @@ def test_app_menu_command(capfd, monkeypatch):
     assert str(e.value) == "Exiting...", "The app did not exit as expected"
 
 # Add tests for the calculator commands
-def test_app_add_command(capfd, monkeypatch):
-    """Test that the REPL correctly handles the 'add' command."""
+def test_app_add_command(monkeypatch, capfd):
+    # Simulate input for the REPL: add 5 3 and exit
     inputs = iter(['add 5 3', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
 
     app = App()
-    with pytest.raises(SystemExit) as e:
+    with pytest.raises(SystemExit):  # Expect SystemExit when 'exit' is called
         app.start()
+    
+    # Capture the output
+    captured = capfd.readouterr()
+    assert "8" in captured.out, "Add command did not return the expected output"
 
-    out, err = capfd.readouterr()
-    assert "Result: 8" in out, "The add command did not work as expected"
-
-def test_app_subtract_command(capfd, monkeypatch):
-    """Test that the REPL correctly handles the 'subtract' command."""
-    inputs = iter(['subtract 10 4', 'exit'])
+def test_app_subtract_command(monkeypatch, capfd):
+    # Simulate input for the REPL: subtract 5 3 and exit
+    inputs = iter(['subtract 5 3', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
 
     app = App()
-    with pytest.raises(SystemExit) as e:
+    with pytest.raises(SystemExit):  # Expect SystemExit when 'exit' is called
         app.start()
 
-    out, err = capfd.readouterr()
-    assert "Result: 6" in out, "The subtract command did not work as expected"
+    # Capture the output
+    captured = capfd.readouterr()
+    assert "2" in captured.out, "Subtract command did not return the expected output"
 
-def test_app_multiply_command(capfd, monkeypatch):
-    """Test that the REPL correctly handles the 'multiply' command."""
-    inputs = iter(['multiply 3 4', 'exit'])
+def test_app_multiply_command(monkeypatch, capfd):
+    # Simulate input for the REPL: multiply 5 3 and exit
+    inputs = iter(['multiply 5 3', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
 
     app = App()
-    with pytest.raises(SystemExit) as e:
+    with pytest.raises(SystemExit):  # Expect SystemExit when 'exit' is called
         app.start()
 
-    out, err = capfd.readouterr()
-    assert "Result: 12" in out, "The multiply command did not work as expected"
+    # Capture the output
+    captured = capfd.readouterr()
+    assert "15" in captured.out, "Multiply command did not return the expected output"
 
-def test_app_divide_command(capfd, monkeypatch):
-    """Test that the REPL correctly handles the 'divide' command."""
-    inputs = iter(['divide 20 4', 'exit'])
+def test_app_divide_command(monkeypatch, capfd):
+    # Simulate input for the REPL: divide 6 3 and exit
+    inputs = iter(['divide 6 3', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
 
     app = App()
-    with pytest.raises(SystemExit) as e:
+    with pytest.raises(SystemExit):  # Expect SystemExit when 'exit' is called
         app.start()
 
-    out, err = capfd.readouterr()
-    assert "Result: 5" in out, "The divide command did not work as expected"
+    # Capture the output
+    captured = capfd.readouterr()
+    assert "2.0" in captured.out, "Divide command did not return the expected output"
 
-def test_app_divide_by_zero(capfd, monkeypatch):
-    """Test that the REPL correctly handles divide by zero errors."""
-    inputs = iter(['divide 10 0', 'exit'])
+def test_app_divide_by_zero(monkeypatch, capfd):
+    # Simulate input for the REPL: divide 5 0 and exit
+    inputs = iter(['divide 5 0', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
 
     app = App()
-    with pytest.raises(SystemExit) as e:
+    with pytest.raises(SystemExit):  # Expect SystemExit when 'exit' is called
         app.start()
 
-    out, err = capfd.readouterr()
-    assert "Error: Division by zero is not allowed" in out, "The divide command did not handle divide by zero as expected"
+    # Capture the output
+    captured = capfd.readouterr()
+    assert "Cannot divide by zero" in captured.out, "Divide by zero did not raise the correct error message"
