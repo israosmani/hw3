@@ -6,6 +6,7 @@ class Command(ABC):
         pass
 
 class CommandHandler:
+    commands ={}
     def register_command(self, command_name: str, command: Command):
         self.commands[command_name] = command
 

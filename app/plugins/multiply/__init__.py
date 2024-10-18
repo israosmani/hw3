@@ -1,5 +1,8 @@
 from app.commands import Command
 
 class MultiplyCommand(Command):
-    def execute(self, a, b):
-        return a * b
+    def execute(self, params):
+        if len(params) == 2:
+            a, b = params
+            print(int(a) * int(b))
+        
