@@ -1,26 +1,40 @@
-import logging
 import os
+import logging
 from app import App
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Access an environment variable (you can change 'MY_ENV_VARIABLE' to whatever you've set in the .env file)
-env_var = os.getenv('MY_ENV_VARIABLE', 'No environment variable found')
-
-# Configure logging
+# Set up logging configuration
 logging.basicConfig(
-    filename='app.log',  # Log output will go to app.log
-    level=logging.INFO,  # Log INFO level and above
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO,  # Use DEBUG, INFO, WARNING, etc., as needed
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Log format
+    handlers=[
+        logging.FileHandler("app.log"),  # Save logs to a file
+        logging.StreamHandler()  # Also output logs to the terminal
+    ]
 )
 
+def output_env_variables():
+    environment = os.getenv('ENVIRONMENT')
+    db_user = os.getenv('DATABASE_USERNAME')
+    db_password = os.getenv('DATABASE_PASSWORD')
+    logging_level = os.getenv('LOGGING_LEVEL')
+    my_env_variable = os.getenv('MY_ENV_VARIABLE')
+
+    logging.info(f"Environment: {environment}")
+    logging.info(f"Database Username: {db_user}")
+    logging.info(f"Database Password: {db_password}")  # Be cautious logging sensitive data!
+    logging.info(f"Logging Level: {logging_level}")
+    logging.info(f"My Environment Variable: {my_env_variable}")
+
 if __name__ == "__main__":
-    # Output the environment variable to the terminal
-    print(f"Environment Variable Loaded: {env_var}")
+    # Log that the app is starting
+    logging.info("Starting the app...")
     
-    logging.info("Starting the application...")
-    app = App().start()  # Your existing code to start the app
-    logging.info("Application exited.")
+    # Start the app
+    app = App().start()
+    
+    # Output and log environment variables
+    output_env_variables()
+    
+    # Log that the app finished execution
+    logging.info("App finished execution.")
 
